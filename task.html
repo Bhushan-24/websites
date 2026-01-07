@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Vehicle Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: blue;
+        }
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+        select {
+            width: 200px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Vehicle Selection</h2>
+
+    <!-- Vehicle Type -->
+    <label for="vehicleType">Vehicle Type:</label>
+    <select id="vehicleType" onchange="updateVehicleNames()">
+        <option value="">--Select Vehicle Type--</option>
+        <option value="Two Wheeler">Two Wheeler</option>
+        <option value="Three Wheeler">Three Wheeler</option>
+        <option value="Four Wheeler">Four Wheeler</option>
+    </select>
+
+    <!-- Vehicle Names -->
+    <label for="vehicleName">Vehicle Names:</label>
+    <select id="vehicleName" onchange="updateVehicleModels()">
+        <option value="">--Select Vehicle Name--</option>
+    </select>
+
+    <!-- Vehicle Models -->
+    <label for="vehicleModel">Vehicle Model Names:</label>
+    <select id="vehicleModel">
+        <option value="">--Select Vehicle Model--</option>
+    </select>
+
+    <script>
+        const vehicles = {
+            "Two Wheeler": {
+                "Hero": ["Activa", "Shine", "SP 125", "Unicorn", "Livo"],
+                "Bajaj": ["N160", "N250", "NS125", "NS200", "RS200", "125", "150", "220F"]
+            },
+            "Three Wheeler": {
+                "Bajaj": ["Electric AE-3", "Vida Sway"],
+                "Mahindra": ["Treo", "Alfa Load"]
+            },
+            "Four Wheeler": {
+                "Maruti Suzuki": ["Swift", "Baleno", "WagonR"],
+                "Tata": ["Nexon", "Harrier", "Safari"]
+            }
+        };
+
+        function updateVehicleNames() {
+            const typeSelect = document.getElementById("vehicleType");
+            const nameSelect = document.getElementById("vehicleName");
+            const modelSelect = document.getElementById("vehicleModel");
+
+            // Clear previous options
+            nameSelect.innerHTML = '<option value="">--Select Vehicle Name--</option>';
+            modelSelect.innerHTML = '<option value="">--Select Vehicle Model--</option>';
+
+            const selectedType = typeSelect.value;
+            if (selectedType && vehicles[selectedType]) {
+                const names = Object.keys(vehicles[selectedType]);
+                names.forEach(name => {
+                    const option = document.createElement("option");
+                    option.value = name;
+                    option.text = name;
+                    nameSelect.add(option);
+                });
+            }
+        }
+
+        function updateVehicleModels() {
+            const typeSelect = document.getElementById("vehicleType");
+            const nameSelect = document.getElementById("vehicleName");
+            const modelSelect = document.getElementById("vehicleModel");
+
+            // Clear previous models
+            modelSelect.innerHTML = '<option value="">--Select Vehicle Model--</option>';
+
+            const selectedType = typeSelect.value;
+            const selectedName = nameSelect.value;
+
+            if (selectedType && selectedName && vehicles[selectedType][selectedName]) {
+                const models = vehicles[selectedType][selectedName];
+                models.forEach(model => {
+                    const option = document.createElement("option");
+                    option.value = model;
+                    option.text = model;
+                    modelSelect.add(option);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
